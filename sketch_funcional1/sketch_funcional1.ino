@@ -5,10 +5,10 @@
 #include <Wire.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <math.h>
 #include "DHT.h"
 
 // Autenticação Cayenne
-
 char username[] = "b7667fb0-5207-11ed-baf6-35fab7fd0ac8";
 char password[] = "4642726cb274b85fdb3d74c3d44b5c7d30e4a6e3";
 char clientID[] = "6eb8a230-523d-11ed-bf0a-bb4ba43bd3f6";
@@ -113,6 +113,9 @@ void setup() {
   timeClient.begin();
   dht.begin();
 
+
+  pinMode(A0, INPUT);
+  
   // Assign the api key (required)
   config.api_key = API_KEY;
 
@@ -143,15 +146,20 @@ void setup() {
   float umidadeAr;
   float temperatura;
   int umidPercent;
+  float temperaturaRounded;
 
-void loop() {
-
+void loop() { 
   umidadeAr = dht.readHumidity();
   temperatura = dht.readTemperature();
 
   int valorSensor = analogRead (A0);
-  umidPercent = map(valorSensor, 0, 1023, 0, 100);
+  valorSensor /= 4;
+
+  umidPercent = map(valorSensor, 0, 256, 100, 0);
+
   umidadeSolo = 100 - umidPercent;
+
+  temperaturaRounded = roundf(temperatura * 100) /100;
 
   if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
     sendDataPrevMillis = millis();
@@ -191,7 +199,7 @@ void loop() {
 CAYENNE_OUT_DEFAULT(){
     Serial.println("Sending Data to Cayenne!");
 
-    Cayenne.celsiusWrite(0, temperatura);
+    Cayenne.celsiusWrite(0, temperaturaRounded);
     Cayenne.virtualWrite(1, umidadeAr, "rel_hum", "p");
     Cayenne.virtualWrite(2, umidadeSolo, "soil_moist", "p");
 }
