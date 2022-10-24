@@ -145,19 +145,19 @@ void setup() {
   float umidadeSolo;
   float umidadeAr;
   float temperatura;
-  int umidPercent;
+  float valorSensor;
+  float umidPercent;
   float temperaturaRounded;
 
 void loop() { 
   umidadeAr = dht.readHumidity();
   temperatura = dht.readTemperature();
 
-  int valorSensor = analogRead (A0);
-  valorSensor /= 4;
+  valorSensor = analogRead(A0);
 
-  umidPercent = map(valorSensor, 0, 256, 100, 0);
+  umidPercent = map(valorSensor, 0, 1023, 100, 0);
 
-  umidadeSolo = 100 - umidPercent;
+  
 
   temperaturaRounded = roundf(temperatura * 100) /100;
 
@@ -180,12 +180,12 @@ void loop() {
       Serial.print("Temperatura: ");
       Serial.println(temperatura);
       Serial.print("Umidade Solo: ");
-      Serial.println(umidadeSolo);
+      Serial.println(umidPercent);
     }
 
     parentPath= databasePath + "/" + String(timestamp);
 
-    json.set(groundUmidityPath.c_str(), String(umidadeSolo));
+    json.set(groundUmidityPath.c_str(), String(umidPercent));
     json.set(airUmidityPath.c_str(), String(umidadeAr));
     json.set(temperaturePath.c_str(), String(temperatura));
     json.set(timeStampPath.c_str(), String(timestamp));
@@ -201,7 +201,7 @@ CAYENNE_OUT_DEFAULT(){
 
     Cayenne.celsiusWrite(0, temperaturaRounded);
     Cayenne.virtualWrite(1, umidadeAr, "rel_hum", "p");
-    Cayenne.virtualWrite(2, umidadeSolo, "soil_moist", "p");
+    Cayenne.virtualWrite(2, umidPercent, "soil_moist", "p");
 }
 
 CAYENNE_IN_DEFAULT()
