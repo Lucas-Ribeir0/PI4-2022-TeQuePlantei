@@ -107,6 +107,8 @@ unsigned long getTime() {
 
 void setup() {
   Cayenne.begin(username, password, clientID);
+  
+  pinMode(LED_BUILTIN)
 
   Serial.begin(115200);
   initWiFi();
