@@ -82,7 +82,7 @@ int timestamp;
 
 // Timer variables (send new readings every three minutes)
 unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 900000;
+unsigned long timerDelay = 300000;
 
 
 // Initialize WiFi
@@ -107,16 +107,14 @@ unsigned long getTime() {
 
 void setup() {
   Cayenne.begin(username, password, clientID);
-  
-  pinMode(LED_BUILTIN)
 
   Serial.begin(115200);
   initWiFi();
+  pinMode(A0, INPUT);
   timeClient.begin();
   dht.begin();
 
 
-  pinMode(A0, INPUT);
   
   // Assign the api key (required)
   config.api_key = API_KEY;
@@ -157,10 +155,8 @@ void loop() {
 
   valorSensor = analogRead(A0);
 
-  umidPercent = map(valorSensor, 0, 1023, 100, 0);
-
-  
-
+  umidPercent = map(valorSensor, 250, 1023, 100, 0);
+ 
   temperaturaRounded = roundf(temperatura * 100) /100;
 
   if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
