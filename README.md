@@ -1,6 +1,6 @@
 ﻿# PI4-2022-TeQuePlantei
  
- Projeto relacionado ao Projeto Interdisciplinar do 4º semestre de DSM, FATEC Franca.
+ Projeto relacionado ao PI do 4º semestre de DSM, FATEC Franca.
  
 <h2>Bibliotecas e <i>boards</i> utilizadas no código do Arduino:</h2>
 
@@ -15,5 +15,5 @@
 [Adafruit DHT](https://github.com/adafruit/DHT-sensor-library)<br>
 
 
-[<b>Cayenne Dashboard</b>](https://cayenne.mydevices.com/shared/63545c1e0d1bfa5ea9e360a0), onde apresentamos as informações coletadas
+[<b>Cayenne Dashboard</b>](https://cayenne.mydevices.com/shared/63545c1e0d1bfa5ea9e360a0), onde apresentamos as informações coletadas em tempo real.
  
