@@ -40,8 +40,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 
 // Variáveis Conexão WI-FI
-#define WIFI_SSID "Ribeiro's Fibra"
-#define WIFI_PASSWORD "familia1751"
+#define WIFI_SSID "Oha"
+#define WIFI_PASSWORD "jorgin12"
 
 // Autenticação com o Firebase
 #define API_KEY "AIzaSyA9hcAP-aB6IAQNm3_d5--jTnLlXKHyXpw"
